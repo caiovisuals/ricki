@@ -17,8 +17,7 @@ RIIQUI-IA é uma chatbot inteligente desenvolvida para ser seu assistente criati
 ## Tecnologias
 
 - **Frontend:** Next.js 15, React 19, Tailwind CSS para estilização moderna e responsiva.
-- **Backend:** Python com Flask, rodando um modelo de IA customizado para gerar respostas inteligentes.
-- **Comunicação:** Flask-CORS para permitir integração entre frontend e backend.
+- **Backend:** JavaScipt e Typescipt rodando um modelo de IA customizado para gerar respostas inteligentes.
 - **Configuração e Build:** Typescript, ESLint, PostCSS e Autoprefixer para qualidade e performance.
 
 ---
@@ -32,18 +31,10 @@ RIIQUI-IA é uma chatbot inteligente desenvolvida para ser seu assistente criati
 
 ## Como Rodar o Projeto
 
-### 1. Backend (Flask)
-
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-python app.py
-
-### 2. Frontend (Next)
-cd frontend
-npm install
-npm run dev
+### FrontEnd e BackEnd (Next, TS e JS)
+"npm install"
+"npm run dev"
+Acesse [localhost](http://localhost:3000)
 
 by caiothevisual  
 #caiobavisuals #riiquiia #ia #artificialintelligence

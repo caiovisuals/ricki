@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react"
 
-type Props = { onSend: (message: string) => void }
+type Props = { 
+    onSend: (message: string) => void,
+    type?: "home" | "conversation"
+}
 
 const phrases = [
-  "Digite sua dúvida...",
-  "Construa seu império!!...",
+  "Tire minha dúvida...",
+  "Construa meu império!!...",
   "Conte uma curiosidade...",
   "Me recomende um livro...",
-  "Escreva sua ideia...",
-  "Me ajude em um bug...",
+  "Me dê uma ideia...",
+  "Preciso de ajuda com um bug...",
+  "Explique um conceito...",
+  "Me ajude a aprender algo novo...",
+  "Sugira um filme...",
+  "Me ajude a planejar uma viagem...",
 ]
 
-export default function ChatInput({ onSend }: Props) {
+export default function ChatInput({ onSend, type = "home" }: Props) {
     const [text, setText] = useState("")
-
     const [placeholder, setPlaceholder] = useState("")
     const [phraseIndex, setPhraseIndex] = useState(0)
     const [charIndex, setCharIndex] = useState(0)
@@ -21,6 +27,11 @@ export default function ChatInput({ onSend }: Props) {
     const [isPaused, setIsPaused] = useState(false)
 
     useEffect(() => {
+      if (type === "conversation") {
+        setPlaceholder("Pergunte ou responda com algo mais...")
+        return
+      }
+
       if (isPaused) return
 
       const currentPhrase = phrases[phraseIndex]
@@ -67,6 +78,16 @@ export default function ChatInput({ onSend }: Props) {
               onChange={(e) => setText(e.target.value)}
               placeholder={placeholder}
               className="p-[16px] resize-none outline-none"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault() // previne qualquer quebra de linha automática
+                  if (e.shiftKey) {
+                    setText((prev) => prev + "\n") // adiciona apenas 1 quebra de linha
+                  } else {
+                    handleSubmit(e) // envia a mensagem
+                  }
+                }
+              }}
             />
             <div className="flex flex-row p-[16px] gap-[4px] justify-end">
                 <label htmlFor="file-upload" className="cursor-pointer rounded-full bg-transparent hover:bg-[#CCC] transition-colors duration-300 size-[40px] flex items-center justify-center aspect-square">

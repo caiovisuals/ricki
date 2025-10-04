@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation"
 import ChatInput from "@/components/ChatInput"
 
-export default function Home() {
+type Props = {
+  user?: { name: string } // ou qualquer outro dado do usuário logado
+}
+
+export default function Home({ user }: Props) {
     const router = useRouter()
 
     const handleSend = (mensagem: string) => {
@@ -14,9 +18,19 @@ export default function Home() {
     return (
         <div className="size-full flex flex-col justify-center px-[22%] gap-[32px]">
             <h1 className="text-[48px] leading-[44px] font-medium">
-                Bem vindo!<br/>O que vamos fazer hoje!
+                {user?.name ? (
+                    <>
+                    Bem vindo!<br/>
+                    O que vamos fazer hoje, {user.name}!
+                    </>
+                ) : (
+                    <>
+                    Bem vindo!<br/>
+                    O que vamos fazer hoje!
+                    </>
+                )}
             </h1>
-            <ChatInput onSend={handleSend} />
+            <ChatInput onSend={handleSend} type="home"/>
         </div>
     )
 }
