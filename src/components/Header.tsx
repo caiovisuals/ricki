@@ -54,7 +54,8 @@ export default function Header() {
                 }`}>
                 <div className="bg-white shadow-lg rounded-lg p-4 w-[200px]">
                     <ul className="space-y-2">
-                        <Link href="/about" className="block" onClick={handleLinkClick}>About</Link>
+                        <Link href="/about" className="block" onClick={handleLinkClick}>Sobre</Link>
+                        <Link href="/discover" className="block" onClick={handleLinkClick}>Explorar</Link>
                     </ul>
                 </div>
             </div>
