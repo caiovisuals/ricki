@@ -25,6 +25,8 @@ export default function ChatInput({ onSend, type = "home" }: Props) {
     const [charIndex, setCharIndex] = useState(0)
     const [isDeleting, setIsDeleting] = useState(false)
     const [isPaused, setIsPaused] = useState(false)
+    
+    const [uploading, setUploading] = useState(false)
 
     useEffect(() => {
       if (type === "conversation") {
@@ -97,6 +99,7 @@ export default function ChatInput({ onSend, type = "home" }: Props) {
                     <input
                         id="file-upload"
                         type="file"
+                        accept="image/*,application/pdf"
                         className="hidden"
                         onChange={(e) => {
                             const file = e.target.files?.[0];

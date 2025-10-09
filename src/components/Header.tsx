@@ -6,6 +6,7 @@ import Link from "next/link"
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const dropdownRef = useRef<HTMLDivElement | null>(null)
     const pathname = usePathname()
     
@@ -40,7 +41,7 @@ export default function Header() {
     }
 
     return (
-        <header className="w-full h-[64px] p-[16px] top-0 flex items-center justify-between" ref={dropdownRef}>
+        <header className="absolute w-full h-[64px] p-[16px] top-0 flex items-center justify-between z-999" ref={dropdownRef}>
             <button className="flex flex-row cursor-pointer items-center gap-[4px] outline-none border-none" aria-expanded={isOpen} onClick={toggleDropdown}>
                 <Link href="/" className="font-medium">RIIQUI-IA</Link>
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="black" strokeWidth="2" className={` ${pathname === "/chat" ? "hidden" : ""} ${isOpen ? "rotate-180" : ""} transition-transform duration-300`}>
@@ -60,8 +61,21 @@ export default function Header() {
                 </div>
             </div>
             <div className="flex flex-row items-center gap-2">
-                <span>User</span>
-                <button className="flex items-center justify-center size-[40px] rounded-full bg-gray-400 hover:bg-gray-500 transition-colors duration-300"/>
+                {isLoggedIn ? (
+                    <>
+                        <span>User</span>
+                        <button className="flex items-center justify-center size-[40px] rounded-full bg-gray-400 hover:bg-gray-500 transition-colors duration-300"/>
+                    </>
+                ) : (
+                    <>
+                        <Link href="/login" className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-300 transition">
+                            Entrar
+                        </Link>
+                        <Link href="/register" className="px-4 py-2 rounded-md bg-black text-white hover:bg-gray-800 transition">
+                            Criar conta
+                        </Link>
+                    </>
+                )}
             </div>
         </header>
     )
