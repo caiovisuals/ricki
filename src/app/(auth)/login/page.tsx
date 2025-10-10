@@ -7,6 +7,7 @@ export default function Login() {
     const [emailOrUsername, setEmailOrUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("")
 
     const showPasswordIcon = () => {
         if (showPassword) {
@@ -28,10 +29,13 @@ export default function Login() {
         }
     };
 
+    const handleSubmit = async (e: React.FormEvent) => {
+    }
+    
     return (
         <div className="size-full flex flex-col justify-center items-center px-[22px]">
             <h1 className="text-[32px] mb-[15px]">Fazer Login</h1>
-            <form className="w-full flex flex-col gap-[10px] items-center max-w-[500px]">
+            <form onSubmit={handleSubmit} className="w-full flex flex-col gap-[10px] items-center max-w-[500px]">
                 <div className="flex flex-col gap-[3px] w-full">
                     <label htmlFor="email" className="text-[20px]">
                         E-mail ou Usuário

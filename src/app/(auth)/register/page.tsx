@@ -4,9 +4,12 @@ import { useState } from "react";
 
 export default function Register() {
     const [loading, setLoading] = useState(false);
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmpassword, setconfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("")
 
     const showPasswordIcon = () => {
         if (showPassword) {
@@ -28,10 +31,29 @@ export default function Register() {
         }
     };
 
+    const handleSubmit = async (e: React.FormEvent) => {}
+
     return (
         <div className="size-full flex flex-col justify-center items-center px-[22px]">
             <h1 className="text-[32px] mb-[15px]">Criar Conta</h1>
-            <form className="w-full flex flex-col gap-[10px] items-center max-w-[500px]">
+            <form onSubmit={handleSubmit} className="w-full flex flex-col gap-[10px] items-center max-w-[500px]">
+                <div className="flex flex-col gap-[3px] w-full">
+                    <label htmlFor="name" className="text-[20px]">
+                        Nome
+                    </label>
+                    <input
+                    id="name"
+                    type="text"
+                    placeholder="Digite seu nome"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full border-2 bg-[#333] border-[#444] p-[5px] px-[11.25px] text-[18px] text-[white] rounded-[15px] outline-none focus:border-[#555] transition-all duration-300 ease-in-out"
+                    required
+                    minLength={3}
+                    maxLength={50}
+                    />
+                </div>
+
                 <div className="flex flex-col gap-[3px] w-full">
                     <label htmlFor="email" className="text-[20px]">
                         E-mail
@@ -89,8 +111,8 @@ export default function Register() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Confirme sua senha"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={confirmpassword}
+                    onChange={(e) => setconfirmPassword(e.target.value)}
                     className="w-full border-2 bg-[#333] border-[#444] p-[5px] px-[11.25px] text-[18px] text-[white] rounded-[15px] outline-none focus:border-[#555] transition-all duration-300 ease-in-out"
                     required
                     />
