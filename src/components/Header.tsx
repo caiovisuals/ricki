@@ -43,7 +43,7 @@ export default function Header() {
     return (
         <header className="absolute w-full h-[64px] p-[16px] top-0 flex items-center justify-between z-999" ref={dropdownRef}>
             <button className="flex flex-row cursor-pointer items-center gap-[4px] outline-none border-none" aria-expanded={isOpen} onClick={toggleDropdown}>
-                <Link href="/" className="font-medium">RIIQUI-IA</Link>
+                <span className="font-medium">RIIQUI-IA</span>
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="black" strokeWidth="2" className={` ${pathname === "/chat" ? "hidden" : ""} ${isOpen ? "rotate-180" : ""} transition-transform duration-300`}>
                     <path d="m6 9 6 6 6-6"></path>
                 </svg>
@@ -55,6 +55,7 @@ export default function Header() {
                 }`}>
                 <div className="bg-white shadow-lg rounded-lg p-4 w-[200px]">
                     <ul className="space-y-2">
+                        <Link href="/" className="block" onClick={handleLinkClick}>Ínicio</Link>
                         <Link href="/about" className="block" onClick={handleLinkClick}>Sobre</Link>
                         <Link href="/discover" className="block" onClick={handleLinkClick}>Explorar</Link>
                     </ul>

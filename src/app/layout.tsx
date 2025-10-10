@@ -3,7 +3,7 @@ import "./globals.css"
 
 export const metadata = {
     title: "RIIQUI-IA",
-    description: "Ia feita por dev brasileiro!",
+    description: "Ia feita por dev brasileiro! Receba conselhos, feedback sugestões e respostas diretas. Experimente o RIIQUI agora mesmo!",
 }
 
 export default function RootLayout({children,}: {children: React.ReactNode}) {

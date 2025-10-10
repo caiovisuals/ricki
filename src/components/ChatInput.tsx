@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 type Props = { 
     onSend: (message: string) => void,
     type?: "home" | "conversation"
+    text?: string,
+    setText?: (value: string) => void
 }
 
 const phrases = [
@@ -18,8 +20,8 @@ const phrases = [
   "Me ajude a planejar uma viagem...",
 ]
 
-export default function ChatInput({ onSend, type = "home" }: Props) {
-    const [text, setText] = useState("")
+export default function ChatInput({ onSend, type = "home", text = "", setText }: Props) {
+    const [localText, setLocalText] = useState(text)
     const [placeholder, setPlaceholder] = useState("")
     const [phraseIndex, setPhraseIndex] = useState(0)
     const [charIndex, setCharIndex] = useState(0)
@@ -27,6 +29,12 @@ export default function ChatInput({ onSend, type = "home" }: Props) {
     const [isPaused, setIsPaused] = useState(false)
     
     const [uploading, setUploading] = useState(false)
+
+    useEffect(() => {
+        if (setText) {
+            setLocalText(text)
+        }
+    }, [text])
 
     useEffect(() => {
       if (type === "conversation") {
@@ -67,9 +75,17 @@ export default function ChatInput({ onSend, type = "home" }: Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if (!text.trim()) return
-        onSend(text)
-        setText("")
+        const message = setText ? text : localText
+        if (!message.trim()) return
+        onSend(message)
+        if (setText) setText("")
+        else setLocalText("")
+    }
+
+    const value = setText ? text : localText
+    const handleChange = (v: string) => {
+        if (setText) setText(v)
+        else setLocalText(v)
     }
 
     return (
@@ -77,14 +93,14 @@ export default function ChatInput({ onSend, type = "home" }: Props) {
             <textarea
               id="mainTaskInput"
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => handleChange(e.target.value)}
               placeholder={placeholder}
               className="p-[16px] resize-none outline-none"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault() // previne qualquer quebra de linha automática
                   if (e.shiftKey) {
-                    setText((prev) => prev + "\n") // adiciona apenas 1 quebra de linha
+                    handleChange(value + "\n") // adiciona apenas 1 quebra de linha
                   } else {
                     handleSubmit(e) // envia a mensagem
                   }

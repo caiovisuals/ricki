@@ -1,14 +1,31 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
 import ChatInput from "@/components/ChatInput"
 
 type Props = {
     user?: { name: string }
 }
 
+const defaultSuggestions  = [
+  "Crie um clone do Spotify",
+  "Me ajude com meu TCC",
+  "Monte um site de portfólio",
+  "Desenvolva umas receitas",
+]
+
 export default function Home({ user }: Props) {
     const router = useRouter()
+    const [inputValue, setInputValue] = useState("")
+    const [suggestions, setSuggestions] = useState<string[]>([])
+
+    useEffect(() => {
+        const shuffleArray = (array: string[]) => {
+            return [...array].sort(() => Math.random() - 0.5)
+        }
+        setSuggestions(shuffleArray(defaultSuggestions))
+    }, [])
 
     const handleSend = (mensagem: string) => {
         if (!mensagem.trim()) return
@@ -31,7 +48,16 @@ export default function Home({ user }: Props) {
                         </>
                     )}
                 </h1>
-                <ChatInput onSend={handleSend} type="home"/>
+                <div className="flex flex-col gap-3">
+                    <ChatInput onSend={handleSend} type="home" text={inputValue} setText={setInputValue}/>
+                    <div className="flex flex-row items-center justify-start gap-2">
+                        {suggestions.map((s, i) => (
+                            <div key={i} className="border-2 px-5 py-1.5 rounded-[16px] bg-gray-100 hover:bg-gray-200 cursor-pointer transition" onClick={() => setInputValue(s)}>
+                                {s}
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
             <div className="flex flex-col justify-center px-[22%] gap-[32px]">
             </div>

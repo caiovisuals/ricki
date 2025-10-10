@@ -57,11 +57,9 @@ function saveContextHistory(history: { input: string; output: string }[]) {
 
 function learnWord(word: string) {
     if (typeof window === "undefined") return
-    const learned = JSON.parse(localStorage.getItem("riiqui_vocab") || "[]")
-    if (!learned.includes(word)) {
-        learned.push(word)
-        localStorage.setItem("riiqui_vocab", JSON.stringify(learned))
-    }
+    const vocab = JSON.parse(localStorage.getItem("riiqui_vocab") || "{}")
+    vocab[word] = (vocab[word] || 0) + 1
+    localStorage.setItem("riiqui_vocab", JSON.stringify(vocab))
 }
 
 function storeLearnedPair(input: string, output: string) {
@@ -89,10 +87,41 @@ async function fetchWikipediaSummary(query: string): Promise<string | null> {
     }
 }
 
+async function fetchDuckDuckGoAnswer(query: string): Promise<string | null> {
+    try {
+        const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_redirect=1&no_html=1`;
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data.AbstractText) return data.AbstractText;
+        if (data.RelatedTopics?.[0]?.Text) return data.RelatedTopics[0].Text;
+        return null;
+    } catch {
+        return null;
+    }
+}
+
+function getRelevantContext(message: string, history: {input: string; output: string}[]) {
+    let bestMatch = null
+    let maxSim = 0
+    const vocab = history.map(h => h.input).join(" ").split(/\s+/)
+    const fullVocab = Array.from(new Set(vocab))
+    const msgVector = vectorize(message, fullVocab)
+
+    for (const h of history) {
+        const histVector = vectorize(h.input, fullVocab)
+        const sim = cosineSimilarity(msgVector, histVector)
+        if (sim > maxSim) {
+            maxSim = sim
+            bestMatch = h
+        }
+    }
+    return maxSim > 0.2 ? bestMatch : null
+}
+
 export async function sendMessage(message: string): Promise<string> {
     const learnedPairs = getLearnedPairs()
     const fullTraining = [...trainingData, ...learnedPairs]
-
     const vocabulary = buildVocabulary(fullTraining)
     const msgVector = vectorize(message, vocabulary)
     const contextHistory = getContextHistory() as { input: string; output: string }[]
@@ -116,6 +145,9 @@ export async function sendMessage(message: string): Promise<string> {
             saveContextHistory(contextHistory);
             return wiki;
         }
+
+        const ddg = await fetchDuckDuckGoAnswer(message);
+        if (ddg) return ddg;
 
         if (contextHistory.length > 0) {
             const last = contextHistory[contextHistory.length - 1];
@@ -147,4 +179,5 @@ export async function sendMessage(message: string): Promise<string> {
 export function trainNewPair(input: string, output: string) {
     trainingData.push({ input, output })
     storeLearnedPair(input, output)
+    input.split(/\s+/).forEach(learnWord)
 }
