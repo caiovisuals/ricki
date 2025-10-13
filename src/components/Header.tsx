@@ -43,7 +43,7 @@ export default function Header() {
     return (
         <header className="absolute w-full h-[64px] p-[16px] top-0 flex items-center justify-between z-999" ref={dropdownRef}>
             <button className="flex flex-row cursor-pointer items-center gap-[4px] outline-none border-none" aria-expanded={isOpen} onClick={toggleDropdown}>
-                <span className="font-medium">RIIQUI-IA</span>
+                <span className="font-medium">RICKI</span>
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="black" strokeWidth="2" className={` ${pathname === "/chat" ? "hidden" : ""} ${isOpen ? "rotate-180" : ""} transition-transform duration-300`}>
                     <path d="m6 9 6 6 6-6"></path>
                 </svg>

@@ -1,6 +1,6 @@
-# RIIQUI-IA
+# RICKI
 
-RIIQUI-IA é uma chatbot inteligente desenvolvida para ser seu assistente criativo, produtivo e também engraçado. Construída com Next.js no frontend e Python (Flask) no backend, essa IA conversa com você, ajuda na organização, dá ideias criativas e ainda traz leveza com seu humor.
+RICKI-IA é uma chatbot inteligente desenvolvida para ser seu assistente criativo, produtivo e também engraçado. Construída com Next.js no frontend e Python (Flask) no backend, essa IA conversa com você, ajuda na organização, dá ideias criativas e ainda traz leveza com seu humor.
 
 ---
 
@@ -37,4 +37,4 @@ RIIQUI-IA é uma chatbot inteligente desenvolvida para ser seu assistente criati
 Acesse [localhost](http://localhost:3000)
 
 by caiothevisual  
-#caiobavisuals #riiquiia #ia #artificialintelligence
+#caiobavisuals #ricki #ia #artificialintelligence #nextjs
