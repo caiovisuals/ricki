@@ -1,4 +1,5 @@
 import Header from "@/components/Header"
+import { AuthProvider } from "@/contexts/AuthContext"
 import "./globals.css"
 
 export const metadata = {
@@ -10,10 +11,12 @@ export default function RootLayout({children,}: {children: React.ReactNode}) {
     return (
         <html lang="pt-br">
             <body className="relative min-h-screen flex flex-col">
-                <Header/>
-                <div className="mt-[64px] size-full">
-                    {children}
-                </div>
+                <AuthProvider>
+                    <Header/>
+                    <div className="mt-[64px] size-full">
+                        {children}
+                    </div>
+                </AuthProvider>
             </body>
         </html>
     )

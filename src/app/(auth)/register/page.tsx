@@ -9,7 +9,6 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [confirmpassword, setconfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState("")
 
     const showPasswordIcon = () => {
         if (showPassword) {
@@ -31,7 +30,44 @@ export default function Register() {
         }
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {}
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+
+        if (password !== confirmpassword) {
+            return
+        }
+
+        setLoading(true)
+
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password
+                })
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                setLoading(false)
+                return
+            }
+
+            localStorage.setItem('riiqui_auth_token', data.token)
+            localStorage.setItem('riiqui_user_data', JSON.stringify(data.user))
+
+            window.location.href = '/'
+        } catch (error) {
+            console.error('Register error:', error)
+            setLoading(false)
+        }
+    }
 
     return (
         <div className="size-full flex flex-col justify-center items-center px-[22px]">

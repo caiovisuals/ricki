@@ -3,10 +3,11 @@
 import { usePathname } from "next/navigation"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+import { useAuth } from "@/contexts/AuthContext"
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const { user, loading, logout } = useAuth()
     const dropdownRef = useRef<HTMLDivElement | null>(null)
     const pathname = usePathname()
     
@@ -62,9 +63,11 @@ export default function Header() {
                 </div>
             </div>
             <div className="flex flex-row items-center gap-2">
-                {isLoggedIn ? (
+                {loading ? (
+                    <div className="size-[40px] rounded-full bg-gray-400 animate-pulse"/>
+                ) : user ? (
                     <>
-                        <span>User</span>
+                        <span>{user.name}</span>
                         <button className="flex items-center justify-center size-[40px] rounded-full bg-gray-400 hover:bg-gray-500 transition-colors duration-300"/>
                     </>
                 ) : (

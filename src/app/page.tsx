@@ -3,20 +3,26 @@
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import ChatInput from "@/components/ChatInput"
+import { useAuth } from "@/contexts/AuthContext"
 
 type Props = {
     user?: { name: string }
 }
 
 const defaultSuggestions  = [
-  "Crie um clone do Spotify",
-  "Me ajude com meu TCC",
-  "Monte um site de portfólio",
-  "Desenvolva umas receitas",
+    "Crie um clone do Spotify",
+    "Me ajude com meu TCC",
+    "Monte um site de portfólio",
+    "Desenvolva umas receitas",
+    "Monte uma landing page moderna",
+    "Crie um app para minha loja",
+    "Me ensine sobre finanças",
+    "Me recomende um livro de romance",
 ]
 
-export default function Home({ user }: Props) {
+export default function Home() {
     const router = useRouter()
+    const { user } = useAuth()
     const [inputValue, setInputValue] = useState("")
     const [suggestions, setSuggestions] = useState<string[]>([])
 
@@ -24,7 +30,7 @@ export default function Home({ user }: Props) {
         const shuffleArray = (array: string[]) => {
             return [...array].sort(() => Math.random() - 0.5)
         }
-        setSuggestions(shuffleArray(defaultSuggestions))
+        setSuggestions(shuffleArray(defaultSuggestions).slice(0, 4))
     }, [])
 
     const handleSend = (mensagem: string) => {
