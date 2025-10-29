@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 export async function PATCH(req: Request) {
     try {
         const body = await req.json()
-        const { name, email, avatar } = body
+        const { name, email, avatar, gender, language } = body
 
         if (!name || !email) {
             return NextResponse.json(
@@ -17,6 +17,8 @@ export async function PATCH(req: Request) {
             name,
             email,
             avatar: avatar || null,
+            gender: gender || "indefinite",
+            language: language || "portuguese",
             updatedAt: new Date().toISOString(),
         }
 

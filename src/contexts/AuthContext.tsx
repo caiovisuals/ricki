@@ -8,6 +8,8 @@ interface User {
     name: string
     avatar?: string
     email: string
+    gender?: "indefinite" | "masculine" | "feminine"
+    language?: "portuguese" | "english"
 }
 
 interface AuthContextType {

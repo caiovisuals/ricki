@@ -1,15 +1,18 @@
 import { SignJWT, jwtVerify } from "jose"
 
 const SECRET_KEY = new TextEncoder().encode(
-    process.env.JWT_SECRET || 'JWT-SECRET-KEY'
+    process.env.JWT_SECRET || "JWT-SECRET-KEY"
 )
 
-const ALGORITHM = 'HS256'
+const ALGORITHM = "HS256"
 
 export interface JWTPayload {
     userId: string
-    email: string
     name: string
+    email: string
+    avatar?: string
+    gender?: "indefinite" | "masculine" | "feminine"
+    language?: "portuguese" | "english"
     iat?: number
     exp?: number
 }

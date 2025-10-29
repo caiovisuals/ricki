@@ -91,7 +91,7 @@ export default function ChatPage() {
                         <Link href="/about" className="block px-3 py-1 rounded bg-[#d1d1d1] hover:bg-[#bbbbbb] transition">Sobre</Link>
                         <Link href="/discover" className="block px-3 py-1 rounded bg-[#d1d1d1] hover:bg-[#bbbbbb] transition">Explorar</Link>
                     </div>
-                    <button onClick={createNewConversation} className="px-3 py-1 rounded bg-[#2C2C2D] hover:bg-[#1c1c1d] transition text-white outline-none border-none text-start cursor-pointer">
+                    <button onClick={createNewConversation} className="px-3 py-1 rounded bg-[#2C2C2D] hover:bg-[#1c1c1d] transition text-[var(--background)] outline-none border-none text-start cursor-pointer">
                         + Nova conversa
                     </button>
                 </div>
@@ -102,7 +102,7 @@ export default function ChatPage() {
                           key={conv.id}
                           onClick={() => setActiveId(conv.id)}
                           className={`px-3 py-1 rounded whitespace-nowrap text-start cursor-pointer ${
-                            conv.id === activeId ? "bg-[#4e4e4e] hover:bg-[#414141] transition text-white" : "bg-gray-300"
+                            conv.id === activeId ? "bg-[#4e4e4e] hover:bg-[#414141] transition text-[var(--background)]" : "bg-gray-300"
                           }`}
                         >
                           {conv.task.length > 15 ? conv.task.slice(0, 15) + "..." : conv.task}

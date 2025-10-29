@@ -63,7 +63,7 @@ export default function Login() {
     
     return (
         <div className="size-full flex flex-col justify-center items-center px-[22px]">
-            <h1 className="text-[32px] mb-[15px]">Fazer Login</h1>
+            <h1 className="text-[35px] mb-[15px]">Fazer Login</h1>
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-[10px] items-center max-w-[500px]">
                 <div className="flex flex-col gap-[3px] w-full">
                     <label htmlFor="email" className="text-[20px]">
@@ -116,7 +116,7 @@ export default function Login() {
 
                 <button
                     type="submit"
-                    className={`w-min text-black bg-gray-300 hover:text-white hover:bg-gray-600 text-[20px] p-[7.5px] px-[90px] mt-[15px] rounded-[15px] transition-all duration-300 ease-in-out cursor-pointer whitespace-nowrap`}
+                    className={`w-min text-black bg-gray-300 hover:text-white hover:bg-gray-600 text-[20px] p-[7.5px] px-[90px] mt-[15px] rounded-[15px] transition-all duration-300 ease-in-out cursor-pointer whitespace-nowrap outline-none`}
                     disabled={loading}>
                     {loading ? "Fazendo Login" : "Fazer Login"}
                 </button>
@@ -127,7 +127,10 @@ export default function Login() {
                     Criar conta
                     </a>
                 </p>
-            </form>
+            </form>            
+            <div className="absolute bottom-0 items-center justify-center w-full flex mb-1">
+                <span className="text-[10px] font-[300]">Ao logar na sua conta no RICKI, você concorda com os <a href="/terms" className="text-gray-700 hover:text-gray-800 transition cursor-pointer">Termos e a Política de Privacidade.</a></span>
+            </div>
         </div>
     )
 }

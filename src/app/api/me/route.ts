@@ -5,8 +5,8 @@ import { findUserById } from "@/lib/userStorage"
 export async function GET(req: Request) {
     try {
         const authHeader = req.headers.get("authorization")
-        
         const token = extractTokenFromHeader(authHeader)
+
         if (!token) {
             return NextResponse.json(
                 { message: "Token não fornecido" },
@@ -35,7 +35,10 @@ export async function GET(req: Request) {
                 user: {
                     id: user.id,
                     name: user.name,
-                    email: user.email
+                    email: user.email,
+                    avatar: user.avatar || "",
+                    gender: user.gender || "indefinite",
+                    language: user.language || "portuguese",
                 }
             },
             { status: 200 }
