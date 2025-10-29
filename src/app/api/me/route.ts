@@ -1,15 +1,50 @@
 import { NextResponse } from "next/server"
+import { verifyToken, extractTokenFromHeader } from "@/lib/jwt"
+import { findUserById } from "@/lib/userStorage"
 
 export async function GET(req: Request) {
     try {
-        const auth = req.headers.get("authorization")
-        if (!auth) return NextResponse.json({ message: "Não autorizado" }, { status: 401 })
+        const authHeader = req.headers.get("authorization")
+        
+        const token = extractTokenFromHeader(authHeader)
+        if (!token) {
+            return NextResponse.json(
+                { message: "Token não fornecido" },
+                { status: 401 }
+            )
+        }
 
-        const parts = auth.split(" ")
-        if (parts.length !== 2 || parts[0] !== "Bearer") return NextResponse.json({ message: "Token inválido" }, { status: 401 })
-            
+        const payload = await verifyToken(token)
+        if (!payload) {
+            return NextResponse.json(
+                { message: "Token inválido ou expirado" },
+                { status: 401 }
+            )
+        }
+
+        const user = findUserById(payload.userId)
+        if (!user) {
+            return NextResponse.json(
+                { message: "Usuário não encontrado" },
+                { status: 404 }
+            )
+        }
+
+        return NextResponse.json(
+            {
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
+                }
+            },
+            { status: 200 }
+        )
     } catch (err) {
-        console.error(err)
-        return NextResponse.json({ message: "Erro interno" }, { status: 500 })
+        console.error("Auth check error:", err)
+        return NextResponse.json(
+            { message: "Erro interno" },
+            { status: 500 }
+        )
     }
 }

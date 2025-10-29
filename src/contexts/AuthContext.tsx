@@ -6,6 +6,7 @@ import { getAuthToken, saveAuthToken, clearAuthToken, getCurrentUser } from "@/l
 interface User {
     id: string
     name: string
+    avatar?: string
     email: string
 }
 

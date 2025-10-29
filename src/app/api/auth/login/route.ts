@@ -10,7 +10,65 @@ export async function POST(req: Request) {
 
         const body = await req.json()
         const { email, password } = body
+
+        // Validate email
+        const emailValidation = validateEmail(email)
+        if (!emailValidation.valid) {
+            return NextResponse.json(
+                { message: "E-mail ou senha inválidos" },
+                { status: 401 }
+            )
+        }
+
+        // Validate password
+        const passwordValidation = validatePassword(password)
+        if (!passwordValidation.valid) {
+            return NextResponse.json(
+                { message: "E-mail ou senha inválidos" },
+                { status: 401 }
+            )
+        }
+
+        // Find user by email
+        const user = findUserByEmail(email.toLowerCase().trim())
+        if (!user) {
+            return NextResponse.json(
+                { message: "E-mail ou senha inválidos" },
+                { status: 401 }
+            )
+        }
+
+        // Compare passwords
+        const passwordMatch = await bcrypt.compare(password, user.password)
+        if (!passwordMatch) {
+            return NextResponse.json(
+                { message: "E-mail ou senha inválidos" },
+                { status: 401 }
+            )
+        }
+
+        // Generate JWT token
+        const token = await signToken({
+            userId: user.id,
+            email: user.email,
+            name: user.name
+        })
+
+        // Return success response with token and user data (without password)
+        return NextResponse.json(
+            {
+                message: "Login realizado com sucesso!",
+                token,
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
+                }
+            },
+            { status: 200 }
+        )
     } catch (error) {
+        console.error("Login error:", error)
         return NextResponse.json(
             { message: "Erro ao fazer login. Tente novamente."},
             { status: 500 }

@@ -66,10 +66,16 @@ export default function Header() {
                 {loading ? (
                     <div className="size-[40px] rounded-full bg-gray-400 animate-pulse"/>
                 ) : user ? (
-                    <>
+                    <Link href="/profile" className="group flex flex-row items-center gap-2 cursor-pointer">
                         <span>{user.name}</span>
-                        <button className="flex items-center justify-center size-[40px] rounded-full bg-gray-400 hover:bg-gray-500 transition-colors duration-300"/>
-                    </>
+                        <button className="flex items-center justify-center size-[40px] rounded-full bg-gray-400 group-hover:bg-gray-500 transition-colors duration-300 cursor-pointer">
+                            {user.avatar ? (
+                                <img src={user.avatar} alt="User Avatar" className="size-full object-cover"/>
+                            ) : (
+                                <div className="hidden"></div>
+                            )}
+                        </button>
+                    </Link>
                 ) : (
                     <>
                         <Link href="/login" className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-300 transition">

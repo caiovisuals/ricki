@@ -8,11 +8,11 @@ type Props = {
 }
 
 const phrases = [
-  "Tire minha dúvida...",
-  "Construa meu império!!...",
+  "Tire minha dúvida sobre...",
+  "Como construo meu império!...",
   "Conte uma curiosidade...",
   "Me recomende um livro...",
-  "Me dê uma ideia...",
+  "Me dê uma ideia sobre...",
   "Preciso de ajuda com um bug...",
   "Explique um conceito...",
   "Me ajude a aprender algo novo...",
