@@ -17,7 +17,7 @@ const defaultSuggestions  = [
     "Monte uma landing page moderna",
     "Crie um app para minha loja",
     "Me ensine sobre finanças",
-    "Me recomende um livro de romance",
+    "Me recomende um livro",
 ]
 
 export default function Home() {
@@ -39,9 +39,9 @@ export default function Home() {
     }
 
     return (
-        <div className="size-full flex flex-col">
+        <div className="size-full flex flex-col relative overflow-hidden">
             <div className="w-full h-[calc(100vh-64px)] flex flex-col justify-center px-[22%] gap-[32px]">
-                <h1 className="text-[48px] leading-[44px] font-medium">
+                <h1 className="text-[48px] leading-[44px] font-medium"> 
                     {user?.name ? (
                         <>
                         Bem vindo!<br/>
@@ -58,7 +58,7 @@ export default function Home() {
                     <ChatInput onSend={handleSend} type="home" text={inputValue} setText={setInputValue}/>
                     <div className="flex flex-row items-center justify-start gap-2">
                         {suggestions.map((s, i) => (
-                            <div key={i} className="border-2 px-5 py-1.5 rounded-[16px] bg-gray-100 hover:bg-gray-200 cursor-pointer transition" onClick={() => setInputValue(s)}>
+                            <div key={i} className="border-2 px-5 py-1.5 rounded-[16px] bg-gray-100 hover:bg-gray-200 transition whitespace-nowrap cursor-pointer" onClick={() => setInputValue(s)}>
                                 {s}
                             </div>
                         ))}
@@ -66,6 +66,9 @@ export default function Home() {
                 </div>
             </div>
             <div className="flex flex-col justify-center px-[22%] gap-[32px]">
+            </div>
+            <div className="absolute bottom-0 items-center justify-center w-full flex mb-1">
+                <span className="text-[10px] font-[300]">Ao utilizar o RICKI, você concorda com os <a href="/terms" className="text-gray-700 hover:text-gray-800 transition cursor-pointer">Termos e a Política de Privacidade.</a></span>
             </div>
         </div>
     )

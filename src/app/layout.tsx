@@ -3,7 +3,7 @@ import { AuthProvider } from "@/contexts/AuthContext"
 import "./globals.css"
 
 export const metadata = {
-    title: "RIIQUI-IA",
+    title: "RICKI-IA",
     description: "Ia feita por dev brasileiro! Receba conselhos, feedback sugestões e respostas diretas. Experimente o RIIQUI agora mesmo!",
 }
 
