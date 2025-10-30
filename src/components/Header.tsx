@@ -70,7 +70,7 @@ export default function Header() {
                         <span>{user.name}</span>
                         <div className="flex items-center justify-center size-[40px] rounded-full bg-gray-400 group-hover:bg-gray-500 transition-colors duration-300 cursor-pointer">
                             {user.avatar ? (
-                                <img src={user.avatar} alt="User Avatar" className="size-full object-cover"/>
+                                <img src={user.avatar} alt="User Avatar" className="size-full object-cover" draggable="false"/>
                             ) : (
                                 <div className="hidden"></div>
                             )}

@@ -1,7 +1,12 @@
 export interface User {
     id: string
     name: string
+    username: string
     email: string
+    avatar?: string
+    banner?: string
+    gender?: "indefinite" | "masculine" | "feminine"
+    language?: "portuguese" | "english"
     password: string
     createdAt: string
 }

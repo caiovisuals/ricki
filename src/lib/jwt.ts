@@ -9,8 +9,10 @@ const ALGORITHM = "HS256"
 export interface JWTPayload {
     userId: string
     name: string
+    username: string
     email: string
     avatar?: string
+    banner?: string
     gender?: "indefinite" | "masculine" | "feminine"
     language?: "portuguese" | "english"
     iat?: number
