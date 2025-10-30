@@ -169,7 +169,7 @@ export default function Register() {
                 </p>
             </form>
             <div className="absolute bottom-0 items-center justify-center w-full flex mb-1">
-                <span className="text-[10px] font-[300]">Ao criar sua conta no RICKI, você concorda com os <a href="/terms" className="text-gray-700 hover:text-gray-800 transition cursor-pointer">Termos e a Política de Privacidade.</a></span>
+                <span className="text-[10px] font-[300] text-center">Ao criar sua conta no RICKI, você concorda com os <a href="/terms" className="text-gray-700 hover:text-gray-800 transition cursor-pointer">Termos e a Política de Privacidade.</a></span>
             </div>
         </div>
     )

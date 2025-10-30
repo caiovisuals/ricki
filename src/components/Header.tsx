@@ -6,9 +6,9 @@ import Link from "next/link"
 import { useAuth } from "@/contexts/AuthContext"
 
 export default function Header() {
+    const { user, logout } = useAuth()
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isUserOpen, setIsUserOpen] = useState(false)
-    const { user, logout } = useAuth()
     const pathname = usePathname()
 
     const navRef = useRef<HTMLDivElement | null>(null)
@@ -21,7 +21,6 @@ export default function Header() {
     }
 
     const toggleUser = () => {
-        if (pathname === "/chat") return
         setIsUserOpen((prev) => !prev)
         setIsNavOpen(false)
     }
@@ -43,6 +42,11 @@ export default function Header() {
         }
     }
 
+    const handleLinkClick = () => {
+        setIsNavOpen(false)
+        setIsUserOpen(false)
+    }
+
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside)
         document.addEventListener("keydown", handleKeyDown)
@@ -52,13 +56,8 @@ export default function Header() {
         }
     }, [])
 
-    const handleLinkClick = () => {
-        setIsNavOpen(false)
-        setIsUserOpen(false)
-    }
-
     return (
-        <header className="absolute w-full h-[64px] p-[16px] top-0 flex items-center justify-between z-999">
+        <header className="absolute w-full h-[64px] p-[16px] top-0 flex items-center justify-between z-99">
             <button className="flex flex-row cursor-pointer items-center justify-start gap-1 px-2 rounded-lg outline-none border-none" aria-expanded={isNavOpen} onClick={toggleNav}>
                 <span className="font-medium">RICKI</span>
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="black" strokeWidth="2" className={` ${pathname === "/chat" ? "hidden" : ""} ${isNavOpen ? "rotate-180" : ""} transition-transform duration-300`}>
@@ -123,7 +122,7 @@ export default function Header() {
                 }`}>
                 <div className="bg-[var(--background)] border-2 border-gray-400 rounded-xl p-2 w-[300px]">
                     <ul className="space-y-1">
-                        <div className="w-full flex flex-col leading-tight">
+                        <div className="w-full flex flex-col leading-tight px-1">
                             <span className="text-[15px] font-[600]">{user?.name}</span>
                             <span className="text-[15px] text-gray-500">{user?.email}</span>
                         </div>

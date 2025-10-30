@@ -110,7 +110,7 @@ export default function ChatPage() {
                     ))}
                 </div>
             </div>
-            <div className="flex flex-col flex-grow rounded p-4 pt-0 gap-4 overflow-hidden h-full">
+            <div className="relative flex flex-col flex-grow rounded p-4 pt-8 gap-4 overflow-hidden h-full">
                 {activeConversation ? (
                     <div className="flex flex-col justify-between h-full">
                         <div className="flex-grow overflow-y-auto">
@@ -121,6 +121,9 @@ export default function ChatPage() {
                 ) : (
                   <p>Selecione ou crie uma conversa para começar.</p>
                 )}
+                <div className="absolute top-0 flex items-center justify-center w-full">
+                    <span className="text-[12px] font-[300] text-center">O RICKI pode cometer erros ao longo do uso. Por isso, lembre-se de sempre conferir informações relevantes.</span>
+                </div>
             </div>
         </div>
     )

@@ -14,9 +14,18 @@ html, body {
   height: 100%;
 }
 
-:root {
+html {
+  scroll-behavior: smooth;
+}
+
+:root, .light {
   --background: white;
   --foreground: black;
+}
+
+.dark {
+  --background: black;
+  --foreground: white;
 }
 
 body {
