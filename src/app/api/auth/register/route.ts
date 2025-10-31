@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcrypt"
 import { signToken } from "@/lib/jwt"
-import { validateEmail, validatePassword, validateName } from "@/lib/validation"
+import { validateName, validateUsername, validateEmail, validatePassword } from "@/lib/validation"
 import { findUserByEmail, addUser } from "@/lib/userStorage"
 import { randomUUID } from "crypto"
 
@@ -10,12 +10,20 @@ export async function POST(req: Request) {
         const ip = req.headers.get("x-forwarded-for") || "unknown"
 
         const body = await req.json()
-        const { name, email, password } = body
+        const { name, username, email, password } = body
 
         const nameValidation = validateName(name)
         if (!nameValidation.valid) {
             return NextResponse.json(
                 { message: nameValidation.error },
+                { status: 400 }
+            )
+        }
+
+        const usernameValidation = validateUsername(username)
+        if (!usernameValidation.valid) {
+            return NextResponse.json(
+                { message: usernameValidation.error },
                 { status: 400 }
             )
         }
@@ -53,6 +61,7 @@ export async function POST(req: Request) {
         const newUser = {
             id: userId,
             name: name.trim(),
+            username: username.trim(),
             email: email.toLowerCase().trim(),
             password: hashedPassword,
             createdAt: new Date().toISOString()
@@ -64,8 +73,9 @@ export async function POST(req: Request) {
         // Generate JWT token
         const token = await signToken({
             userId: newUser.id,
+            name: newUser.name,
+            username: newUser.username,
             email: newUser.email,
-            name: newUser.name
         })
 
         // Return success response with token and user data (without password)
@@ -76,6 +86,7 @@ export async function POST(req: Request) {
                 user: {
                     id: newUser.id,
                     name: newUser.name,
+                    username: newUser.username,
                     email: newUser.email
                 }
             },

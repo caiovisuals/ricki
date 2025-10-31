@@ -8,6 +8,7 @@ interface User {
     name: string
     username: string
     avatar?: string
+    banner?: string
     email: string
     gender?: "indefinite" | "masculine" | "feminine"
     language?: "portuguese" | "english"

@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function Register() {
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState("");
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmpassword, setconfirmPassword] = useState("");
@@ -87,6 +88,23 @@ export default function Register() {
                     required
                     minLength={3}
                     maxLength={50}
+                    />
+                </div>
+
+                <div className="flex flex-col gap-[3px] w-full">
+                    <label htmlFor="name" className="text-[20px]">
+                        Nome de usuário
+                    </label>
+                    <input
+                    id="username"
+                    type="text"
+                    placeholder="Digite seu nome"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full border-2 bg-[#333] border-[#444] p-[5px] px-[11.25px] text-[18px] text-[white] rounded-[15px] outline-none focus:border-[#555] transition-all duration-300 ease-in-out"
+                    required
+                    minLength={3}
+                    maxLength={30}
                     />
                 </div>
 

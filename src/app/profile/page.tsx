@@ -8,7 +8,8 @@ type FormData = {
     name: string
     email: string
     username: string
-    avatar: string
+    avatar?: string
+    banner?: string
     gender: string
     language: string
 }
@@ -23,6 +24,7 @@ export default function Profile() { // pagina de perfil do usuario logado
         email: user?.email || "",
         username: user?.username || "",
         avatar: user?.avatar || "",
+        banner: user?.banner || "",
         gender: user?.gender || "indefinite",
         language: user?.language || "portuguese",
     })
@@ -34,11 +36,13 @@ export default function Profile() { // pagina de perfil do usuario logado
     const ViewBannerRef = useRef<HTMLDivElement | null>(null)
 
     const handleClickOutside = (event: MouseEvent) => {
-        if (
-            (EditingRef.current && !EditingRef.current.contains(event.target as Node))
-        ) {
+        if (EditingRef.current && !EditingRef.current.contains(event.target as Node)) {
             setIsEditing(false)
+        }
+        if (ViewAvatarRef.current && !ViewAvatarRef.current.contains(event.target as Node)) {
             setIsAvatarOpen(false)
+        }
+        if (ViewBannerRef.current && !ViewBannerRef.current.contains(event.target as Node)) {
             setIsBannerOpen(false)
         }
     }
@@ -66,13 +70,19 @@ export default function Profile() { // pagina de perfil do usuario logado
             email: user?.email || "",
             username: user?.username || "",
             avatar: user?.avatar || "",
+            banner: user?.banner || "",
             gender: user?.gender || "",
-            language: user?.language || "",
+            language: user?.language || "",   
         });
         setIsEditing(true);
     };
 
     const handleSave = async () => {
+        if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            alert("E-mail inválido");
+            return;
+        }
+
         setSaving(true)
         try {
             const res = await fetch("/api/user/update", {
@@ -97,6 +107,7 @@ export default function Profile() { // pagina de perfil do usuario logado
             email: user?.email || "",
             username: user?.username || "",
             avatar: user?.avatar || "",
+            banner: user?.banner || "",
             gender: user?.gender || "",
             language: user?.language || "",
         });
@@ -108,9 +119,14 @@ export default function Profile() { // pagina de perfil do usuario logado
     return (
         <div className="size-full flex flex-col px-[22%] py-10 gap-8">
             <h1 className="text-4xl font-bold">Seu Perfil</h1>
-
             <div className="w-full flex flex-col gap-4">
-                <div onClick={() => setIsBannerOpen(true)} className="size-full aspect-[70/15] bg-gray-500 rounded-2xl cursor-pointer"/>
+                <div onClick={() => setIsBannerOpen(true)} className="size-full aspect-[60/15] bg-gray-500 rounded-2xl cursor-pointer">
+                    {user?.banner ? (
+                        <img src={user.banner} alt="User Banner" className="size-full object-cover" draggable="false"/>
+                    ) : (
+                        <div className="hidden"></div>
+                    )}
+                </div>
                 <div className="w-full flex flex-row gap-6 items-center justify-between">
                     <div className="flex flex-row gap-6 items-center">
                         <div onClick={() => setIsAvatarOpen(true)} className="flex items-center justify-center size-[85px] rounded-full bg-gray-500 cursor-pointer">
@@ -134,7 +150,7 @@ export default function Profile() { // pagina de perfil do usuario logado
                     ? "opacity-100 pointer-events-auto"
                     : "opacity-0 pointer-events-none"
                 }`}>
-                <div ref={EditingRef} className={`flex flex-col gap-4 items-start justify-center bg-[var(--background)] p-6 rounded-lg transition-all duration-300 ease-in-out transform ${isEditing ? "scale-100" : "scale-90"}`}>
+                <div ref={EditingRef} className={`flex flex-col gap-4 items-start justify-center bg-[var(--background)] p-6 rounded-2xl transition-all duration-300 ease-in-out transform ${isEditing ? "scale-100" : "scale-90"}`}>
                     <h2 className="text-2xl font-bold">Editar Perfil</h2>
                     <div className="group relative overflow-hidden w-full">
                         <input
@@ -143,7 +159,7 @@ export default function Profile() { // pagina de perfil do usuario logado
                             title="Editar Banner"
                             className="absolute inset-0 size-full opacity-0 cursor-pointer"
                         />
-                        <div className="inset-0 bg-gray-600 group-hover:bg-gray-700 rounded-lg p-8 w-full flex items-center justify-center transition duration-300">
+                        <div className="inset-0 bg-gray-600 group-hover:bg-gray-700 rounded-lg p-8 w-full aspect-[60/15] flex items-center justify-center transition duration-300">
                             <svg width="80" height="65" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect width="26" height="18" x="0" y="3" rx="2" ry="2"/><circle cx="6" cy="9" r="2.1"/><path d="m26 15-3.086-3.086a2 2 0 0 0-2.828 0L6 20.7"/>
                             </svg>
@@ -167,6 +183,8 @@ export default function Profile() { // pagina de perfil do usuario logado
                             <div className="flex flex-col items-start justify-center w-[50%]">
                                 <label>Nome:</label>
                                 <input
+                                    type="text"
+                                    maxLength={35}
                                     className="w-full border-2 p-2 border-gray-400 bg-transparent rounded-2xl focus:outline-none"
                                     value={formData.name}
                                     onChange={(e) =>
@@ -178,6 +196,9 @@ export default function Profile() { // pagina de perfil do usuario logado
                                 <label>Nome de usuário:</label>
                                 <div className="relative w-full flex items-center">
                                     <input
+                                        type="text"
+                                        maxLength={30}
+                                        pattern="^[a-zA-Z0-9_]+$"
                                         className="w-full border-2 p-2 pl-6 border-gray-400 bg-transparent rounded-2xl focus:outline-none"
                                         value={formData.username}
                                         onChange={(e) =>
@@ -191,6 +212,7 @@ export default function Profile() { // pagina de perfil do usuario logado
                         <div className="flex flex-col items-start justify-center w-full">
                             <label>Email:</label>
                             <input
+                                type="email"
                                 className="w-full border-2 p-2 border-gray-400 bg-transparent rounded-2xl focus:outline-none"
                                 value={formData.email}
                                 onChange={(e) =>
@@ -236,8 +258,14 @@ export default function Profile() { // pagina de perfil do usuario logado
                     : "opacity-0 pointer-events-none"
                 }`}>
 
-                <div ref={ViewAvatarRef} className={`flex flex-col gap-4 items-start justify-center bg-[var(--background)] p-6 rounded-lg transition-all duration-300 ease-in-out transform ${isAvatarOpen ? "scale-100" : "scale-90"}`}>
-
+                <div ref={ViewAvatarRef} className={`flex flex-col gap-4 items-start justify-center bg-[var(--background)] p-6 rounded-full transition-all duration-300 ease-in-out transform ${isAvatarOpen ? "scale-100" : "scale-90"}`}>
+                    <div className="flex items-center justify-center size-[300px] rounded-full bg-gray-500">
+                        {user?.avatar ? (
+                            <img src={user.avatar} alt="User Avatar" className="size-full object-cover" draggable="false"/>
+                        ) : (
+                            <div className="hidden"></div>
+                        )}
+                    </div>
                 </div>
             </div>
             <div className={`absolute inset-0 bg-black/50 flex items-center justify-center z-150 transition-all duration-300 ease-in-out transform ${
@@ -245,8 +273,14 @@ export default function Profile() { // pagina de perfil do usuario logado
                     ? "opacity-100 pointer-events-auto"
                     : "opacity-0 pointer-events-none"
                 }`}>
-                <div ref={ViewBannerRef} className={`flex flex-col gap-4 items-start justify-center bg-[var(--background)] p-6 rounded-lg transition-all duration-300 ease-in-out transform ${isBannerOpen ? "scale-100" : "scale-90"}`}>
-                    
+                <div ref={ViewBannerRef} className={`flex flex-col gap-4 items-start justify-center bg-[var(--background)] p-6 rounded-4xl transition-all duration-300 ease-in-out transform ${isBannerOpen ? "scale-100" : "scale-90"}`}>
+                    <div onClick={() => setIsBannerOpen(true)} className="size-full min-w-290 aspect-[60/15] bg-gray-500 rounded-2xl">
+                        {user?.banner ? (
+                            <img src={user.banner} alt="User Banner" className="size-full object-cover" draggable="false"/>
+                        ) : (
+                            <div className="hidden"></div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
