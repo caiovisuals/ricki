@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcrypt"
 import { signToken } from "@/lib/jwt"
-import { validateEmail, validatePassword } from "@/lib/validation"
+import { validateEmail, validateUsername, validatePassword } from "@/lib/validation"
 import { findUserByEmail } from "@/lib/userStorage"
 
 export async function POST(req: Request) {
@@ -16,6 +16,15 @@ export async function POST(req: Request) {
         if (!emailValidation.valid) {
             return NextResponse.json(
                 { message: "E-mail ou senha inválidos" },
+                { status: 401 }
+            )
+        }
+
+        // Validate username
+        const usernameValidation = validateUsername(username)
+        if (!usernameValidation.valid) {
+            return NextResponse.json(
+                { message: "Nome de usuário invalido" },
                 { status: 401 }
             )
         }
@@ -51,6 +60,7 @@ export async function POST(req: Request) {
         const token = await signToken({
             userId: user.id,
             email: user.email,
+            username: user.username,
             name: user.name
         })
 
@@ -62,6 +72,7 @@ export async function POST(req: Request) {
                 user: {
                     id: user.id,
                     name: user.name,
+                    username: user.username,
                     email: user.email
                 }
             },

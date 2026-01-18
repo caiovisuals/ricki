@@ -44,13 +44,13 @@ export default function Home() {
                 <h1 className="text-[38px] xl:text-[42px] 2xl:text-[48px] leading-[40px] xl:leading-[44px] font-medium"> 
                     {user?.name ? (
                         <>
-                        Bem vindo!<br/>
-                        O que vamos fazer hoje, {user.name}!
+                            Bem vindo!<br/>
+                            O que vamos fazer hoje, {user.name}!
                         </>
                     ) : (
                         <>
-                        Bem vindo!<br/>
-                        O que vamos fazer hoje!
+                            Bem vindo!<br/>
+                            O que vamos fazer hoje!
                         </>
                     )}
                 </h1>

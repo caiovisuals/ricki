@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 
-export default function Login() {
+export default function Register() {
     const [loading, setLoading] = useState(false);
-    const [emailOrUsername, setEmailOrUsername] = useState("");
+    const [name, setName] = useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmpassword, setconfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
     const showPasswordIcon = () => {
@@ -30,16 +33,22 @@ export default function Login() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+
+        if (password !== confirmpassword) {
+            return
+        }
+
         setLoading(true)
 
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: emailOrUsername,
+                    name: name,
+                    email: email,
                     password: password
                 })
             })
@@ -56,25 +65,59 @@ export default function Login() {
 
             window.location.href = '/'
         } catch (error) {
-            console.error('Login error:', error)
+            console.error('Register error:', error)
             setLoading(false)
         }
     }
-    
+
     return (
         <div className="size-full flex flex-col justify-center items-center px-[22px]">
-            <h1 className="text-[35px] mb-[15px]">Fazer Login</h1>
+            <h1 className="text-[35px] mb-[15px]">Criar Conta</h1>
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-[10px] items-center max-w-[500px]">
                 <div className="flex flex-col gap-[3px] w-full">
-                    <label htmlFor="email" className="text-[20px]">
-                        E-mail ou Usuário
+                    <label htmlFor="name" className="text-[20px]">
+                        Nome
                     </label>
                     <input
-                    id="emailorusername"
+                    id="name"
                     type="text"
-                    placeholder="Digite seu e-mail ou usuário"
-                    value={emailOrUsername}
-                    onChange={(e) => setEmailOrUsername(e.target.value)}
+                    placeholder="Digite seu nome"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full border-2 bg-[#333] border-[#444] p-[5px] px-[11.25px] text-[18px] text-[white] rounded-[15px] outline-none focus:border-[#555] transition-all duration-300 ease-in-out"
+                    required
+                    minLength={3}
+                    maxLength={50}
+                    />
+                </div>
+
+                <div className="flex flex-col gap-[3px] w-full">
+                    <label htmlFor="name" className="text-[20px]">
+                        Nome de usuário
+                    </label>
+                    <input
+                    id="username"
+                    type="text"
+                    placeholder="Digite seu nome de usuário"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full border-2 bg-[#333] border-[#444] p-[5px] px-[11.25px] text-[18px] text-[white] rounded-[15px] outline-none focus:border-[#555] transition-all duration-300 ease-in-out"
+                    required
+                    minLength={3}
+                    maxLength={30}
+                    />
+                </div>
+
+                <div className="flex flex-col gap-[3px] w-full">
+                    <label htmlFor="email" className="text-[20px]">
+                        E-mail
+                    </label>
+                    <input
+                    id="email"
+                    type="text"
+                    placeholder="Digite seu e-mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full border-2 bg-[#333] border-[#444] p-[5px] px-[11.25px] text-[18px] text-[white] rounded-[15px] outline-none focus:border-[#555] transition-all duration-300 ease-in-out"
                     required
                     />
@@ -114,22 +157,37 @@ export default function Login() {
                     </button>
                 </div>
 
+                <div className="flex flex-col gap-[3px] w-full relative">
+                    <label htmlFor="password" className="text-[20px]">
+                        Confirmar Senha
+                    </label>
+                    <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Confirme sua senha"
+                    value={confirmpassword}
+                    onChange={(e) => setconfirmPassword(e.target.value)}
+                    className="w-full border-2 bg-[#333] border-[#444] p-[5px] px-[11.25px] text-[18px] text-[white] rounded-[15px] outline-none focus:border-[#555] transition-all duration-300 ease-in-out"
+                    required
+                    />
+                </div>
+
                 <button
                     type="submit"
                     className={`w-min text-black bg-gray-300 hover:text-white hover:bg-gray-600 text-[20px] p-[7.5px] px-[90px] mt-[15px] rounded-[15px] transition-all duration-300 ease-in-out cursor-pointer whitespace-nowrap outline-none`}
                     disabled={loading}>
-                    {loading ? "Fazendo Login" : "Fazer Login"}
+                    {loading ? "Criando Conta" : "Criar Conta"}
                 </button>
 
                 <p className="text-center mt-[-5px]">
-                    Não tem uma conta?{" "}
-                    <a href="/register" className="text-gray-500">
-                    Criar conta
+                    Já tem uma conta?{" "}
+                    <a href="/login" className="text-gray-500">
+                    Fazer login
                     </a>
                 </p>
-            </form>            
+            </form>
             <div className="absolute bottom-0 items-center justify-center w-full flex mb-1">
-                <span className="text-[10px] font-[300] text-center">Ao logar na sua conta no RICKI, você concorda com os <a href="/terms" className="text-gray-700 hover:text-gray-800 transition cursor-pointer">Termos e a Política de Privacidade.</a></span>
+                <span className="text-[10px] font-[300] text-center">Ao criar sua conta no RICKI, você concorda com os <a href="/terms" className="text-gray-700 hover:text-gray-800 transition cursor-pointer">Termos e a Política de Privacidade.</a></span>
             </div>
         </div>
     )
