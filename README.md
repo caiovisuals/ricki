@@ -19,21 +19,26 @@ Construída com Next.js no frontend e Python (Flask) no backend, essa IA convers
 
 ## Estrutura do Projeto
 
+```
 RICKI/
 ├── backend/
 ├── frontend/
 ├── README.md
+```
 
 ## Como Rodar o Projeto
 
 ### FrontEnd (Next, TS e JS)
 
+```
 "npm install"
 "npm run dev"
 Acesse [localhost](http://localhost:3000)
+```
 
 ### BackEnd (Python)
 
+```
 cd backend
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
@@ -41,6 +46,7 @@ venv\Scripts\activate     # Windows
 
 pip install -r requirements.txt
 python app/main.py
+```
 
 by caiothevisual  
 #caiobavisuals #ricki #ia #artificialintelligence #nextjs #python
